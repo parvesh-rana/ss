@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
-<div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-40 px-20">
+<div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-40 px-2">
     {% comment %} <div class="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
         <img class="w-full" alt="image of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
         <img class="mt-6 w-full" alt="image of a girl posing" src="https://i.ibb.co/qxkRXSq/component-image-two.png" />
@@ -18,7 +18,7 @@
         <!-- Product Image Section -->
         <div class="flex flex-col lg:flex-row gap-10">
             <!-- Thumbnail Images (Desktop) -->
-            <div class="hidden lg:flex w-40 flex-col gap-4">
+            <div class="hidden lg:flex md:w-44 flex-col gap-4">
                 {% for image in images %}
                 <img 
                     src="{{ image.image.url }}" 
@@ -87,7 +87,7 @@
             Add To Cart
         </button>
         <div>
-            <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7">{{product.productcat.description}}</p>
+            <p class=" text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7">{{product.productcat.description}}</p>
             {% comment %} <p class="text-base leading-4 mt-7 text-gray-600 dark:text-gray-300">Product Code: 8BN321AF2IF0NYA</p> {% endcomment %}
         </div>
         <div>
