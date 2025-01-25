@@ -51,8 +51,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_discount_percentage(self):
-        if self.discounted_price and self.mrp:
-            return round(((self.mrp - self.discounted_price) / self.mrp) * 100, 2)
+        if self.discounted_price and self.price:
+            return int(round(((self.price - self.discounted_price) / self.price) * 100, 2))
         return 0
     def __str__(self):
         return f"{self.sku}"

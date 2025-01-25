@@ -7,6 +7,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
+    <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <!-- Swiper.js Script -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 </head>
 {% comment %} <link rel="stylesheet" href="{% static 'style.css' %}"> {% endcomment %}
 <script src="{% static 'js/flyout.js' %}" defer></script>
@@ -19,7 +23,7 @@ body head {
 {% tailwind_css %}
 <body style="margin: 0;">
       
-      <header class="bg-black">
+      <header class="bg-yellow-950">
         <nav class="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
@@ -28,7 +32,7 @@ body head {
             </a>
           </div>
           <div class="flex lg:hidden">
-            <buttontype="button" id='product-button2' class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <buttontype="button" id='product-button2' class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
               {% comment %} <span class="sr-only">Open main menu</span> {% endcomment %}
               <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -36,7 +40,7 @@ body head {
             </button>
           </div>
           <div class="hidden lg:flex lg:gap-x-12">
-            <a href="#" class="text-sm/6 font-semibold text-white">Home</a>
+            <a href="/" class="text-sm/6 font-semibold text-white">Home</a>
             <div id="product-button"class="relative">
               <button type="button" class="flex items-center gap-x-1 text-sm/6 font-semibold text-white" aria-expanded="false">
                 Products
@@ -59,7 +63,7 @@ body head {
                 <div class="p-4 ">
                   <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
                     <div class="flex-auto">
-                      <a href="#" class="block font-semibold text-gray-900">
+                      <a href="/product/PNT-WHITE-1KG/" class="block font-semibold text-gray-900">
                         Peanut Butter
                         <span class="absolute inset-0"></span>
                       </a>
@@ -68,7 +72,7 @@ body head {
                   </div>
                   <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
                     <div class="flex-auto">
-                      <a href="#" class="block font-semibold text-gray-900">
+                      <a href="/product/WHEY-CHOC-3KG/" class="block font-semibold text-gray-900">
                         Whey Protein
                         <span class="absolute inset-0"></span>
                       </a>
@@ -77,7 +81,7 @@ body head {
                   </div>
                   <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
                     <div class="flex-auto">
-                      <a href="#" class="block font-semibold text-gray-900">
+                      <a href="/product/BULK-MK-5KG/" class="block font-semibold text-gray-900">
                         Mass Gainer
                         <span class="absolute inset-0"></span>
                       </a>
@@ -85,7 +89,7 @@ body head {
                   </div>
                   <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
                     <div class="flex-auto">
-                      <a href="#" class="block font-semibold text-gray-900">
+                      <a href="/product/PRE-FRUIT-300GM/" class="block font-semibold text-gray-900">
                         Pre Workout
                         <span class="absolute inset-0"></span>
                       </a>
@@ -109,7 +113,7 @@ body head {
             </div>
         </nav>
         <!-- Mobile menu, show/hide based on menu open state. -->
-        <div id='flyout-menu2'class="hidden" role="dialog" aria-modal="true">
+        <div id='flyout-menu2' class="hidden z-2" role="dialog" aria-modal="true">
           <!-- Background backdrop, show/hide based on slide-over state. -->
           <div class="fixed inset-0 z-10"></div>
           <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -141,11 +145,11 @@ body head {
                       </svg>
                     </button>
                     <!-- 'Product' sub-menu, show/hide based on menu state. -->
-                    <div id='flyout-menu3'class="hidden mt-2 space-y-2" id="disclosure-1">
-                      <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Peanut Butter</a>
-                      <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Whey Protein</a>
-                      <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Mass Gainrer</a>
-                      <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Pre Workout</a>
+                    <div id='flyout-menu3 disclosure-1' class="hidden z-2 mt-2 space-y-2" >
+                      <a href="/product/PNT-WHITE-1KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Peanut Butter</a>
+                      <a href="/product/WHEY-CHOC-3KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Whey Protein</a>
+                      <a href="/product/BULK-MK-5KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Mass Gainrer</a>
+                      <a href="/producr/PRE-FRUIT-300GM" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Pre Workout</a>
                     </div>
                   </div>
                   <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Our Stores</a>

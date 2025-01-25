@@ -1,65 +1,82 @@
 {% extends "index.html" %}
 {% block content %}
+<!-- Swiper.js CSS -->
+
+<h1 class="bg-amber-600 px-5 py-2 text-white text-xs">
+    Home > Products > {{product.productcat}}
+</h1>
 <div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-40 px-2">
-    {% comment %} <div class="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
-        <img class="w-full" alt="image of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
-        <img class="mt-6 w-full" alt="image of a girl posing" src="https://i.ibb.co/qxkRXSq/component-image-two.png" />
-    </div> 
-    <div class="md:hidden">
-        <img class="w-full" alt="image of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
-        <div class="flex items-center justify-between mt-3 space-x-4 md:space-x-0">
-            <img alt="image-tag-one" class="md:w-48 md:h-48 w-full" src="https://i.ibb.co/cYDrVGh/Rectangle-245.png" />
-            <img alt="image-tag-one" class="md:w-48 md:h-48 w-full" src="https://i.ibb.co/f17NXrW/Rectangle-244.png" />
-            <img alt="image-tag-one" class="md:w-48 md:h-48 w-full" src="https://i.ibb.co/cYDrVGh/Rectangle-245.png" />
-            <img alt="image-tag-one" class="md:w-48 md:h-48 w-full" src="https://i.ibb.co/f17NXrW/Rectangle-244.png" />
-        </div>
-    </div> {% endcomment %}
     <div class="md:flex-1 mx-auto px-4 ">
         <!-- Product Image Section -->
-        <div class="flex flex-col lg:flex-row gap-10">
+        <div class="flex flex-col md:flex-row gap-10">
             <!-- Thumbnail Images (Desktop) -->
-            <div class="hidden lg:flex md:w-44 flex-col gap-4">
+            <div class="flex order-2 md:order-1 overflow-hidden md:flex md:w-auto md:flex-col gap-4">
                 {% for image in images %}
                 <img 
                     src="{{ image.image.url }}" 
                     alt="Thumbnail {{ forloop.counter }}" 
-                    class="w-24 h-24 object-cover cursor-pointer rounded-md border border-gray-200 hover:border-blue-500"
+                    class="w-full h-24 object-scale-down cursor-pointer rounded-md border border-gray-200 hover:border-blue-500"
                     onclick="updateMainImage('{{ image.image.url }}')">
                 {% endfor %}
             </div>
     
             <!-- Main Image -->
-            <div class="relative w-auto">
+            <div class="hidden order-1 md:order-2 md:block relative mx-auto w-5/6">
                 <img 
                     id="mainImage" 
                     src="{{ images.first.image.url }}" 
                     alt="{{ product.flavour }}" 
-                    class="w-full h-auto object-contain rounded-lg shadow-md">
+                    class="w-fit h-auto object-contain rounded-lg shadow-md">
             </div>
     
             <!-- Slider Images (Mobile) -->
-            <div class="lg:hidden">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
+            <div class="md:hidden ">
+                <div class="swiper-container flex relative overflow-hidden" >
+                    <div class=" swiper-wrapper flex relative">
                         {% for image in images %}
-                        <div class="swiper-slide">
+                        <div class="swiper-slide ">
                             <img 
+                                id="swiper"
                                 src="{{ image.image.url }}" 
                                 alt="Slide {{ forloop.counter }}" 
-                                class="w-full h-48 object-contain rounded-lg">
+                                class="w-full h-full rounded-lg">
                         </div>
                         {% endfor %}
-                    </div>
+                    </div>  
                     <!-- Slider Navigation -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev z-1"></div>
+                <div class="swiper-button-next z-1"></div>
+                <div class="swiper-pagination z-1"></div>                
                 </div>
+                
             </div>
         </div>
     </div>
-    
-    <div class="md:flex-2 xl:w-2/5 md:w-1/2 lg:ml-10  md:ml-6 md:mt-0 mt-6">
+    <script>
+        function updateMainImage(imageUrl) {
+            const mainImage = document.getElementById("mainImage");
+            const swiper = document.getElementById("swiper");
+            mainImage.src = imageUrl;
+            swiper.src = imageUrl;
+        }
+        const swiper = new Swiper(".swiper-container", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            observe: true,
+            observeParents: true,
+            loop: false, // Infinite loop for slides
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            
+        });
+    </script>
+    <div class="md:flex-2 xl:w-2/5 md:w-1/2 lg:ml-10 px-6 md:ml-6 md:mt-0 mt-6">
         <div class="border-b border-gray-200 pb-6">
             <h1 class="text-sm leading-none font-semibold text-gray-600 dark:text-gray-300 ">Core-Crust</h1>
             <h1 class="lg:text-2xl text-xl font-semibold lg:leading-6 leading-7 text-gray-800 dark:text-white mt-2">{{product.productcat}}</h1>
@@ -70,7 +87,6 @@
                 <p class="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">{{product.flavour}}</p>
                 <img class="hidden dark:block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2dark.svg" alt="next">   
                 <img class="dark:hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
-                {% comment %} <div class="w-6 h-6 bg-gradient-to-b ml-3 mr-4 cursor-pointer"></div> {% endcomment %}
             </div>
         </div>
         <div class="py-4 border-b border-gray-200 flex items-center justify-between">
@@ -81,14 +97,28 @@
                 <img class="hidden dark:block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2dark.svg" alt="next">  
             </div>
         </div>
-        <button class="dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-orange-500 w-full py-4 hover:bg-orange-400 ">
-            {% comment %} <img class="mr-3 dark:hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/svg1.svg" alt="location"> {% endcomment %}
-            <img class="mr-3 hidden dark:block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/svg1dark.svg" alt="location">
+        <div class="py-3 ">
+            <span class="items-start text-lg text-yellow-600">
+                MRP :
+                <span class=" ">₹{{product.discounted_price}}</span>
+                <span class="line-through text-xs text-gray-600">₹{{product.price}}</span>
+            </span> 
+            <span class="text-green-500 ml-2">{{product.get_discount_percentage}}% off</span>
+            <p class="text-base">
+                Incl. of all taxes
+            </p>
+        </div>
+        {% if product.stock > 0 %}
+        <button class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-green-600 w-full py-4 hover:bg-green-500 ">
             Add To Cart
         </button>
+        {% else%}
+        <button class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-300 w-full py-4 ">
+            Out of Stock
+        </button>
+        {% endif%}
         <div>
             <p class=" text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7">{{product.productcat.description}}</p>
-            {% comment %} <p class="text-base leading-4 mt-7 text-gray-600 dark:text-gray-300">Product Code: 8BN321AF2IF0NYA</p> {% endcomment %}
         </div>
         <div>
             <div class="border-t border-b py-4 mt-7 border-gray-200">
