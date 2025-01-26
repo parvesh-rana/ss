@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Swiper.js CSS -->
 
-<h1 class="bg-amber-600 px-5 py-2 text-white text-xs">
+<h1 class="bg-white px-5 py-2 text-black text-xs">
     Home > Products > {{product.productcat}}
 </h1>
 <div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-40 px-2">
@@ -10,13 +10,13 @@
         <!-- Product Image Section -->
         <div class="flex flex-col md:flex-row gap-10">
             <!-- Thumbnail Images (Desktop) -->
-            <div class="flex order-2 md:order-1 overflow-hidden md:flex md:w-auto md:flex-col gap-4">
+            <div class="hidden order-2 md:order-1  md:flex md:w-auto md:flex-col gap-4">
                 {% for image in images %}
                 <img 
                     src="{{ image.image.url }}" 
                     alt="Thumbnail {{ forloop.counter }}" 
                     class="w-full h-24 object-scale-down cursor-pointer rounded-md border border-gray-200 hover:border-blue-500"
-                    onclick="updateMainImage('{{ image.image.url }}')">
+                    onmouseover="updateMainImage('{{ image.image.url }}')">
                 {% endfor %}
             </div>
     
@@ -31,10 +31,10 @@
     
             <!-- Slider Images (Mobile) -->
             <div class="md:hidden ">
-                <div class="swiper-container flex relative overflow-hidden" >
-                    <div class=" swiper-wrapper flex relative">
+                <div class="swiper-container z-0 flex relative overflow-hidden" >
+                    <div class=" swiper-wrapper  flex relative">
                         {% for image in images %}
-                        <div class="swiper-slide ">
+                        <div class="swiper-slide  ">
                             <img 
                                 id="swiper"
                                 src="{{ image.image.url }}" 
@@ -44,9 +44,9 @@
                         {% endfor %}
                     </div>  
                     <!-- Slider Navigation -->
-                <div class="swiper-button-prev z-1"></div>
-                <div class="swiper-button-next z-1"></div>
-                <div class="swiper-pagination z-1"></div>                
+                {% comment %} <div class="swiper-button-prev z-10"></div>
+                <div class="swiper-button-next z-10"></div> {% endcomment %}
+                <div class="swiper-pagination z-10"></div>                
                 </div>
                 
             </div>
@@ -60,11 +60,8 @@
             swiper.src = imageUrl;
         }
         const swiper = new Swiper(".swiper-container", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            observe: true,
-            observeParents: true,
-            loop: false, // Infinite loop for slides
+            
+            loop: true, // Infinite loop for slides
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
@@ -109,16 +106,16 @@
             </p>
         </div>
         {% if product.stock > 0 %}
-        <button class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-green-600 w-full py-4 hover:bg-green-500 ">
+        <button id="addtocartButton" class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-green-600 w-full py-4 hover:bg-green-500 ">
             Add To Cart
         </button>
         {% else%}
-        <button class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-300 w-full py-4 ">
+        <button class="dark:bg-white rounded text-base flex items-center justify-center leading-none text-white bg-gray-300 w-full py-4 ">
             Out of Stock
         </button>
         {% endif%}
         <div>
-            <p class=" text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7">{{product.productcat.description}}</p>
+            <p class=" text-base lg:leading-tight leading-normal font-semibold text-black dark:text-gray-300 mt-7">{{product.productcat.description}}</p>
         </div>
         <div>
             <div class="border-t border-b py-4 mt-7 border-gray-200">

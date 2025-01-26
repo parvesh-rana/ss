@@ -23,21 +23,29 @@ body head {
 {% tailwind_css %}
 <body style="margin: 0;">
       
-      <header class="bg-yellow-950">
+      <header class="bg-stone-900">
         <nav class="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div class="flex lg:flex-1">
-            <a href="#" class="-m-1.5 p-1.5">
+            <a href="/" class="-m-1.5 p-1.5">
               {% comment %} <span class="sr-only">Your Company</span> {% endcomment %}
               <img class="h-8 w-auto" src="{% static '\icons\core-crust-logo.svg' %}" alt="">
             </a>
           </div>
           <div class="flex lg:hidden">
-            <buttontype="button" id='product-button2' class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
+            <a href="#" class="text-sm/8 font-semibold mx-8 text-white">
+              <img class="h-8 w-auto" src="{% static '\icons\bag-shopping-solid2.svg' %}" alt="" >  
+              <span class="cart-count absolute top-12 right-14 bg-red-500 text-white text-xs font-bold rounded-full px-2 border-2 border-white">
+                
+              </span>           
+            </a>
+            
+            <buttontype="button" id='product-button2' class="-m-2.5 inline-flex items-center justify-center rounded-md  py-2.5 text-white">
               {% comment %} <span class="sr-only">Open main menu</span> {% endcomment %}
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <svg class="size-10" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             </button>
+            
           </div>
           <div class="hidden lg:flex lg:gap-x-12">
             <a href="/" class="text-sm/6 font-semibold text-white">Home</a>
@@ -106,22 +114,25 @@ body head {
               <a href="#" class="text-sm/6 font-semibold px-7 text-white">
                 <img class="h-6 w-auto" src="{% static '\icons\bag-shopping-solid2.svg' %}" alt="">
               </a>
-              <a href="#" class="text-sm/6 font-semibold text-white">
+              <span class="cart-count absolute top-12 right-16 bg-red-500 text-white text-xs font-bold rounded-full px-2 border-2 border-white">
+                
+              </span>
+              <a href="/account.html" class="text-sm/6 font-semibold text-white">
                 <img class="h-6 w-auto" src="{% static '\icons\user-solid.svg' %}" alt="">
-
               </a>
             </div>
         </nav>
         <!-- Mobile menu, show/hide based on menu open state. -->
-        <div id='flyout-menu2' class="hidden z-2" role="dialog" aria-modal="true">
+        <div id='flyout-menu2' class="hidden" role="dialog" aria-modal="true">
           <!-- Background backdrop, show/hide based on slide-over state. -->
           <div class="fixed inset-0 z-10"></div>
-          <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div class="fixed inset-y-0 right-0 z-10 w-2/3 overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div class="flex items-center justify-between">
               <a href="#" class="-m-1.5 p-1.5">
                 {% comment %} <span class="sr-only">Your Company</span> {% endcomment %}
                 <img class="h-8 w-auto" src="{% static '\icons\core-crust-logo.svg' %}" alt="">
               </a>
+              
               <button type="button" id='product-button3'class="-m-2.5 rounded-md p-2.5 text-gray-700">
                 {% comment %} <span class="sr-only">Close menu</span> {% endcomment %}
                 <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -145,7 +156,7 @@ body head {
                       </svg>
                     </button>
                     <!-- 'Product' sub-menu, show/hide based on menu state. -->
-                    <div id='flyout-menu3 disclosure-1' class="hidden z-2 mt-2 space-y-2" >
+                    <div id='flyout-menu3' class="hidden mt-2 space-y-2" id="disclosure-1" >
                       <a href="/product/PNT-WHITE-1KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Peanut Butter</a>
                       <a href="/product/WHEY-CHOC-3KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Whey Protein</a>
                       <a href="/product/BULK-MK-5KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Mass Gainrer</a>
@@ -493,5 +504,31 @@ body head {
     </div>
   </div>
 </footer>
+<script>
+  // Initialize cart count
+  let cartCount = 0;
+
+  // Function to update cart count for all cart SVGs
+  function updateCartCount(count) {
+    const cartCountElements = document.querySelectorAll('.cart-count');
+    cartCountElements.forEach((element) => {
+      element.textContent = count;
+      element.style.display = count > 0 ? 'inline' : 'none'; // Hide badge if count is 0
+    });
+  }
+
+  // Set initial value for the cart count
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount(cartCount); // Initialize the cart count badge
+  });
+
+  // Add event listener for the Add to Cart button
+  const addToCartButton = document.getElementById('addToCartButton');
+  addtocartButton.addEventListener('click', () => {
+    cartCount++; // Increment cart count
+    updateCartCount(cartCount); // Update all cart badges
+  });
+
+</script>
 </body>
 </html>
