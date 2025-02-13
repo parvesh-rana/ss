@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import ProductCat,ProductImage,HomepageBanner,Product
 # Register your models here.
 
+
 # Custom Admin for ProductImage to be inline within Product admin
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ( 'sku', 'is_primary', 'image')
@@ -50,6 +51,7 @@ class HomepageBannerAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'display_order')
     search_fields = ('title',)
     list_filter = ('is_active',)
+
 
 admin.site.register(HomepageBanner, HomepageBannerAdmin)
 admin.site.register(ProductCat,ProductCatAdmin)

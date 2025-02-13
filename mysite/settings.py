@@ -27,9 +27,8 @@ SECRET_KEY = 'django-insecure-s8$l5cog$x#k-&re8*7)pomn133p76s2#&*bz3qxui9t7@l(=a
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
+    'accounts',
     'tailwind',
     'theme',
     'django_browser_reload',
 ]
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = ['127.0.0.1',]
 NPM_BIN_PATH =r"C:\Program Files\nodejs\npm.cmd"
@@ -57,12 +58,23 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
+    # 'accounts.middleware.EmailBackendMiddleware',
+    # 'accounts.middleware.CustomUserMiddleware',
+    # 'accounts.middleware.MagicLinkMiddleware',
+    # 'accounts.middleware.MagicLinkLoginMiddleware',
+    # 'accounts.middleware.MagicLinkLogoutMiddleware',
+    # 'accounts.middleware.MagicLinkPasswordResetMiddleware',
+    # 'accounts.middleware.MagicLinkPasswordResetConfirmMiddleware',
+    # 'accounts.middleware.MagicLinkPasswordResetCompleteMiddleware',
+    # 'accounts.middleware.MagicLinkPasswordResetDoneMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
 
+
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR,'shop','templates')],
         'APP_DIRS': True,
@@ -78,6 +90,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 
 
 # Database

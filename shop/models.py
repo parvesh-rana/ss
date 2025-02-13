@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-import os
+from django.core.exceptions import ValidationError
+
 class ProductCat(models.Model):
     PRODUCT_TYPE_CHOICES=[
         ('Whey Protein', 'Whey Protein'),
