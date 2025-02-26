@@ -70,7 +70,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
-
+LOGIN_URL = '/login'
 
 TEMPLATES = [
     {

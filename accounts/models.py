@@ -74,12 +74,18 @@ class OrderItem(models.Model):
         return f"{self.order.user.name} - {self.product.sku}"
     
 class Cart(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE, null=True, blank=True)
+    session_id = models.CharField(max_length=255, null=True, blank=True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.name} - {self.product.sku}"
+        return f"{self.user.name if self.user else 'Guest'} - {self.product.sku}"
+
+    def get_total_price(self):
+        return self.quantity * (self.product.discounted_price if self.product.is_discounted else self.product.price)
 
 class Coupon(models.Model):
     code = models.CharField(max_length=255)
@@ -88,6 +94,7 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
+        
 class Address(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=255)

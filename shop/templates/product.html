@@ -1,7 +1,8 @@
 {% extends "index.html" %}
+{% load static %}
 {% block content %}
 <!-- Swiper.js CSS -->
-
+<script src="{% static 'js/cart.js' %}"></script>
 <h1 class="bg-white px-5 py-2 text-black text-xs">
     Home > Products > {{product.productcat}}
 </h1>
@@ -61,7 +62,7 @@
         }
         const swiper = new Swiper(".swiper-container", {
             
-            loop: true, // Infinite loop for slides
+            loop: false, // Infinite loop for slides
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
@@ -106,7 +107,7 @@
             </p>
         </div>
         {% if product.stock > 0 %}
-        <button id="addtocartButton" class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-green-600 w-full py-4 hover:bg-green-500 ">
+        <button onclick="addToCart({{ product.id }})" id="addtocartButton" class="dark:bg-white rounded dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-green-600 w-full py-4 hover:bg-green-500 ">
             Add To Cart
         </button>
         {% else%}

@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from .forms import SignupForm, LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, authenticate, logout
+from .forms import SignupForm, LoginForm, AddressForm
 from django.utils import timezone
 from django.utils.timezone import timedelta
 from django.core.mail import send_mail
-from .models import CustomUser
+from .models import CustomUser, Address, Cart, Product
 import uuid
 from django.contrib import messages
-# from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.db.models import Sum, F
+import json
 
-# Create your views here.
 
 def signup_view(request):
 
@@ -61,53 +63,160 @@ def verify_magic_link(request, token):
         return redirect('login')
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/account')
     if request.method == "POST":
-        print(request.POST)
         form = LoginForm(request,data=request.POST)
-        # print(request.POST.get("password"))
-        print(form.is_valid())
-        # user=form.get_user()
-        # print(form)
-        # print(form.errors.as_json())
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
-            # user = form.get_user()           
-            # print(form.error.as_json())
-            # if user.is_active(): 
             if user is not None: # Check if the user is active
                 login(request, user)
-                return redirect('shop:home')
+                return redirect('account')
             else:
                 messages.error(request, "Your account is not active. Please verify your email.")
-
                 return redirect('login')
         else:
             return render(request, 'account.html', {'form': form, 'action': 'login'})
     else:
         form = LoginForm()
         return render(request, 'account.html', {'form': form, 'action': 'login'})
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            next_url = request.GET.get('next', '/account/')  # Respect `next` if present
+            return redirect(next_url)
+        return super().dispatch(request, *args, **kwargs)
 
+def cart_view(request):
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+        print(cart_items)
+    else:
+        session_id = request.session.session_key or request.session.create()
+        cart_items = Cart.objects.filter(session_id=session_id)
+        # print(cart_items)
+    total_price = sum(item.get_total_price() for item in cart_items)
+    
+    return render(request, 'cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
+
+def add_to_cart(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        quantity = data.get('quantity', 1)
+        
+        try:
+            product = Product.objects.get(id=product_id)
+            
+            if request.user.is_authenticated:
+                cart_item, created = Cart.objects.get_or_create(
+                    user=request.user,
+                    product=product,
+                    defaults={'quantity': quantity}
+                )
+                if not created:
+                    cart_item.quantity += quantity
+                    cart_item.save()
+            else:
+                session_id = request.session.session_key or request.session.create()
+                cart_item, created = Cart.objects.get_or_create(
+                    session_id=session_id,
+                    product=product,
+                    defaults={'quantity': quantity}
+                )
+                if not created:
+                    cart_item.quantity += quantity
+                    cart_item.save()
+
+            cart_count = Cart.objects.filter(
+                user=request.user if request.user.is_authenticated else None,
+                session_id=None if request.user.is_authenticated else session_id
+            ).aggregate(total_items=Sum('quantity'))['total_items'] or 0
+
+            return JsonResponse({
+                'success': True,
+                'cart_count': cart_count
+            })
+        except Product.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Product not found'})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+def update_cart(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        item_id = data.get('item_id')
+        quantity = data.get('quantity')
+        
+        try:
+            if request.user.is_authenticated:
+                cart_item = Cart.objects.get(id=item_id, user=request.user)
+            else:
+                session_id = request.session.session_key
+                cart_item = Cart.objects.get(id=item_id, session_id=session_id)
+            
+            if quantity > 0:
+                cart_item.quantity = quantity
+                cart_item.save()
+            else:
+                cart_item.delete()
+                
+            return JsonResponse({'success': True})
+        except Cart.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Cart item not found'})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+@login_required
 def logout_view(request):
     logout(request)
-    return redirect('index')
+    return redirect('login')
 
-# def profile_view(request):
-#     if request.method == "POST":
-#         user_form = UserUpdateForm(request.POST,instance=request.user)
-#         profile_form = ProfileUpdateForm(request.POST,request.FILES,instance=request.user.profile)
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user_form.save()
-#             profile_form.save()
-#             return redirect('profile')
-#         else:
-#             messages.error(request,"Invalid form submission")
-#             return redirect('profile')
-#     else:
-#         user_form = UserUpdateForm(instance=request.user)
-#         profile_form = ProfileUpdateForm(instance=request.user.profile)
-#         return render(request,'profile.html',{'user_form':user_form,'profile_form':profile_form})
+@login_required
+def profile(request):
+    user=request.user
+    return render(request,'account.html',{'user':user})
+
+@login_required
+def edit_address(request, address_id):
+    address = get_object_or_404(Address, id=address_id, user=request.user)  # Ensure user owns the address
+    
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('account')  # Redirect back to account page after saving
+    else:
+        form = AddressForm(instance=address)
+    
+    return render(request, 'edit_address.html', {
+        'form': form,
+        'title' : 'Edit the Address',
+        'submit_text': 'Edit Address'
+        })
+
+@login_required
+def add_address(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect('account')  # or wherever you want to redirect after success
+    else:
+        form = AddressForm()
+    
+    return render(request, 'accounts/address_form.html', {
+        'form': form,
+        'title': 'Add New Address',
+        'submit_text': 'Add Address'
+    })
 
 def password_reset_view(request):
     return render(request,'password_reset_form.html')
