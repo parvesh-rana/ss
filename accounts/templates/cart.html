@@ -6,32 +6,36 @@
 {% if cart_items %}
 <script src="{% static 'js/cart.js' %}"></script>
 
-<section class="h-screen bg-gray-100 py-12 sm:py-16 lg:py-20">
+<section class="h-auto bg-gray-100 py-12 sm:py-10 lg:py-10">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center">
             <h1 class="text-2xl font-semibold text-gray-900">Your Cart</h1>
         </div>
 
-        <div class="mx-auto mt-8 max-w-5xl">
+        <div class="mx-auto mt-8 max-w-7xl">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
                 <!-- Cart Items List - Takes up 2 columns -->
                 <div class="md:col-span-2">
                     <div class="bg-white shadow rounded-sm">
-                        <div class="px-4 py-6 sm:px-8 sm:py-10">
+                        <div class="px-0 py-6 pr-6 sm:px-8 sm:py-10">
                             <div class="flow-root">
                                 <ul class="-my-8">
                                     {% for item in cart_items %}
-                                    <li class="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0 {% if not forloop.last %}border-b border-gray-200{% endif %}">
+                                    <li class="flex space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0 {% if not forloop.last %}border-b border-gray-200{% endif %}">
                                         <div class="shrink-0">
+                                            <a href="{% url 'shop:product_detail' item.product.sku %}">
                                             <img class="h-24 w-24 max-w-full rounded-sm object-cover" 
                                                  src="{{ item.product.front_image.url }}" 
                                                  alt="{{ item.product.sku }}">
+                                            </a>
                                         </div>
 
                                         <div class="relative flex flex-1 flex-col justify-between">
                                             <div class="sm:col-gap-5 sm:grid sm:grid-cols-2">
-                                                <div class="pr-8 sm:pr-5">
+                                                <div class="pr-16 sm:pr-5">
+                                                    <a href="{% url 'shop:product_detail' item.product.sku %}">
                                                     <p class="text-base font-semibold text-gray-900">{{ item.product.productcat.name }}</p>
+                                                    </a>
                                                     <p class="mx-0 mt-1 mb-0 text-sm text-gray-400">{{ item.product.flavour }} - {{ item.product.size }}{{ item.product.size_unit }}</p>
                                                 </div>
 
@@ -59,7 +63,7 @@
                                             <div class="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
                                                 <button type="button" 
                                                         onclick="updateCartItem({{ item.id }}, 0)"
-                                                        class="flex rounded-sm p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
+                                                        class="flex rounded-sm text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
                                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                                     </svg>
@@ -77,18 +81,18 @@
                 <!-- Order Summary - Takes up 1 column -->
                 <div class="md:col-span-1">
                     <div class="bg-white shadow rounded-sm">
-                        <div class="px-4 py-6 sm:px-8 sm:py-10">
+                        <div class="px-8 py-6 sm:px-5 sm:py-8">
                             <div class="flow-root">
-                                <div class="mt-6 border-t border-b py-2">
-                                    <div class="flex items-center justify-between">
-                                        <p class="text-sm text-black">Subtotal</p>
-                                        <p class="text-lg font-semibold text-gray-900">₹{{ total_price }}</p>
+                                <div class="mt-0 border-b py-2">
+                                    <div class="flex items-center border-b mb-5 justify-between">
+                                        <p class="text-lg font-bold mb-6 text-black">Subtotal</p>
+                                        <p class="text-lg font-semibold mb-6 text-gray-900">₹{{ total_price }}</p>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <p class="text-sm text-black">Discount</p>
                                         <p class="text-lg font-semibold text-gray-900">- ₹{{ total_price }}</p>
                                     </div>
-                                    <div class="flex items-center justify-between">
+                                    <div class="flex items-center pb-6 justify-between">
                                         <p class="text-sm text-black">Shipping</p>
                                         <p class="text-lg font-semibold text-gray-900">Free</p>
                                     </div>
@@ -120,7 +124,8 @@
     </div>
 </section>
 {% else %}
-<div class="w-auto h-96 pt-40 text-center font-semibold text-4xl">
+<div class="w-auto h-auto pt-20 border-b pb-28 text-center font-semibold text-4xl">      
+    <svg class="size-72 mx-auto fill-gray-200 "xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 32 40"><path d="M6.783 25.703a2.264 2.264 0 0 0-2.262 2.262 2.263 2.263 0 1 0 2.262-2.262Zm11.4 0a2.264 2.264 0 0 0-2.262 2.262 2.263 2.263 0 1 0 2.262-2.262Zm-11.4 1a1.263 1.263 0 1 1-.001 2.525 1.263 1.263 0 0 1 .001-2.526Zm11.4 0a1.263 1.263 0 1 1-.001 2.525 1.263 1.263 0 0 1 .001-2.526Zm2.566-5.095v1.69a.39.39 0 0 1-.39.39H3.718a.5.5 0 0 0 0 1h16.641a1.39 1.39 0 0 0 1.39-1.39v-2.055l.005-.02 3.621-15.39H30a.5.5 0 0 0 0-1h-5.021a.5.5 0 0 0-.487.385l-1.056 4.49H2a.5.5 0 0 0-.493.583l1.863 10.9a.5.5 0 0 0 .493.417h16.886Zm2.452-10.9H2.593l1.691 9.9h16.587l2.33-9.9Zm-6.549-3.71 2.25-3.66a.501.501 0 0 0-.852-.523L15.8 6.474a.5.5 0 0 0 .852.524Zm-7.485-.524-2.25-3.66a.501.501 0 0 0-.852.525l2.25 3.659a.501.501 0 0 0 .852-.524Zm3.816-.541v-3.66a.5.5 0 0 0-1 0v3.66a.5.5 0 0 0 1 0Z"/></svg>
     Your cart is currently empty.
 </div>
 {% endif %}

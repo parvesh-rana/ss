@@ -10,7 +10,7 @@
     <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <!-- Swiper.js Script -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    {% comment %} <script src="{% static 'js/cart.js' %}"</script> {% endcomment %}
+    <script src="{% static 'js/cart.js' %}"></script>
 
 </head>
 {% comment %} <link rel="stylesheet" href="{% static 'style.css' %}"> {% endcomment %}
@@ -35,9 +35,8 @@ body head {
       <div class="flex lg:hidden">
         <a href="{% url 'cart_view' %}" class="text-sm/8 font-semibold mx-8 text-white">
           <img class="h-8 w-auto" src="{% static '\icons\bag-shopping-solid2.svg' %}" alt="" >  
-          <span class="cart-count absolute top-12 right-14 bg-red-500 text-white text-xs font-bold rounded-full px-2 border-2 border-white">           
-          </span>   
-          <span id="cart-count" class="cart-count">0</span>
+          <span id="cart-count" class="cart-count absolute top-12 right-14 bg-red-500 text-white text-xs font-bold rounded-full px-2 border-2 border-white" style="display: none;">           
+          {% comment %} <span id="cart-count" class="cart-count">0</span> {% endcomment %}
         </a>       
         <buttontype="button" id='product-button2' class="-m-2.5 inline-flex items-center justify-center rounded-md  py-2.5 text-white">
           {% comment %} <span class="sr-only">Open main menu</span> {% endcomment %}
@@ -144,7 +143,7 @@ body head {
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
               <div class="-mx-3">
-                <button id='product-button4'type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
+                <button id='product-button4'type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-bold text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
                   Products
                   <!--
                     Expand/collapse icon, toggle classes based on menu open state.
@@ -157,17 +156,17 @@ body head {
                 </button>
                 <!-- 'Product' sub-menu, show/hide based on menu state. -->
                 <div id='flyout-menu3' class="hidden mt-2 space-y-2" id="disclosure-1" >
-                  <a href="/product/PNT-WHITE-1KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Peanut Butter</a>
-                  <a href="/product/WHEY-CHOC-3KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Whey Protein</a>
-                  <a href="/product/BULK-MK-5KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Mass Gainrer</a>
-                  <a href="/producr/PRE-FRUIT-300GM" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Pre Workout</a>
+                  <a href="/product/PNT-WHITE-1KG/" class="block rounded-lg py-2 pl-6 pr-3 text-xl/10 font-semibold text-gray-700 hover:bg-gray-900">Peanut Butter</a>
+                  <a href="/product/WHEY-CHOC-3KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-700 hover:bg-gray-900">Whey Protein</a>
+                  <a href="/product/BULK-MK-5KG/" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-700 hover:bg-gray-900">Mass Gainrer</a>
+                  <a href="/product/PRE-FRUIT-300GM" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-700 hover:bg-gray-900">Pre Workout</a>
                 </div>
               </div>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Our Stores</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Company</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-bold text-gray-900 hover:bg-gray-50 ">Our Stores</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-bold text-gray-900 hover:bg-gray-50">Company</a>
             </div>
             <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-bold text-gray-900 hover:bg-gray-50">Log in</a>
             </div>
           </div>
         </div>
@@ -187,7 +186,7 @@ body head {
 -->
 
 <footer class="bg-white dark:bg-gray-900">
-  <div class="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+  <div class="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>
         <div class="flex justify-center text-teal-600 sm:justify-start dark:text-teal-300">
@@ -394,10 +393,10 @@ body head {
         <div class="text-center sm:text-left">
           <p class="text-lg font-medium text-gray-900 dark:text-white">Contact Us</p>
 
-          <ul class="mt-8 space-y-4 text-sm">
+          <ul class=" mt-8 inline-block text-center space-y-4 text-sm">
             <li>
               <a
-                class="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                class="flex justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
                 href="#"
               >
                 <svg
@@ -415,7 +414,7 @@ body head {
                   />
                 </svg>
 
-                <span class="flex-1 text-gray-700 dark:text-gray-300"> info@corecrust.com </span>
+                <span class="flex-1 px-3 inline-flex text-gray-700 dark:text-gray-300"> info@corecrust.com </span>
               </a>
             </li>
 
@@ -439,7 +438,7 @@ body head {
                   />
                 </svg>
 
-                <span class="flex-1 text-gray-700 dark:text-gray-300">+91 9650497358</span>
+                <span class="flex-1 px-3 inline-flex text-gray-700 dark:text-gray-300">+91 9650497358</span>
               </a>
             </li>
 
@@ -466,7 +465,7 @@ body head {
                 />
               </svg>
 
-              <address class="-mt-0.5 flex-1 not-italic text-gray-700 dark:text-gray-300">
+              <address class="-mt-0.5 flex-1 px-3 inline-flex not-italic text-gray-700 dark:text-gray-300">
                 193, 453, Malhana-131001
               </address>
             </li>
@@ -504,7 +503,7 @@ body head {
     </div>
   </div>
 </footer>
-<script>
+{% comment %} <script>
   // Initialize cart count
   let cartCount = 0;
 
@@ -529,6 +528,6 @@ body head {
     updateCartCount(cartCount); // Update all cart badges
   });
 
-</script>
+</script> {% endcomment %}
 </body>
 </html>

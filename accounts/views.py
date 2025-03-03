@@ -92,7 +92,7 @@ def login_view(request):
 def cart_view(request):
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-        print(cart_items)
+        # print(cart_items)
     else:
         session_id = request.session.session_key or request.session.create()
         cart_items = Cart.objects.filter(session_id=session_id)
@@ -229,3 +229,14 @@ def password_reset_view(request):
 
 # def password_reset_complete_view(request):
 #     return render(request,'password_reset_complete.html')
+
+def get_cart_count(request):
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).aggregate(
+            total_items=Sum('quantity'))['total_items'] or 0
+    else:
+        session_id = request.session.session_key or request.session.create()
+        cart_count = Cart.objects.filter(session_id=session_id).aggregate(
+            total_items=Sum('quantity'))['total_items'] or 0
+    
+    return JsonResponse({'cart_count': cart_count})
