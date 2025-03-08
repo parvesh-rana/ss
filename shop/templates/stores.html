@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<h1 class="text-center text-4xl mt-8"> 
+    Our Stores 
+
+</h1>
+<div class="max-w-6xl py-10 pb-20 border-b-8 px-5 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Store 1 -->
+    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Rathee Nutrition</h2>
+        <p class="text-gray-600 mt-2">Shop no 17, omaxe galleria, Sector 14, Bahadurgarh, Haryana 124507</p>
+        {% comment %} <p class="text-gray-500 mt-1">📞 +123 456 7890</p> {% endcomment %}
+    </div>
+
+    <!-- Store 2 -->
+    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Everest Nutrition</h2>
+        <p class="text-gray-600 mt-2">1st floor, Shop no 1, pingli chowk, 1, Kaithal - Karnal Rd, above krishna pharmacy, Karnal, Haryana 132001</p>
+        {% comment %} <p class="text-gray-500 mt-1">📞 +987 654 3210</p> {% endcomment %}
+    </div>
+
+    <!-- Store 3 -->
+    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Kesri Nutrition</h2>
+        <p class="text-gray-600 mt-2">598-R, 8, Chowk, Jattal Rd, Marla Colony, Model Town, Panipat, Haryana 132103</p>
+        {% comment %} <p class="text-gray-500 mt-1">📞 +456 789 0123</p> {% endcomment %}
+    </div>
+
+    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Rj supplements</h2>
+        <p class="text-gray-600 mt-2">2X2W+X58, Gali Number 2, Shastri Colony, Sonipat, Haryana 131001</p>
+        {% comment %} <p class="text-gray-500 mt-1">📞 +456 789 0123</p> {% endcomment %}
+    </div>
+
+    <!-- Add more stores here -->
+</div>
+{% endblock %}

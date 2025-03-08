@@ -17,4 +17,4 @@ def product_detail(request,product_name):
     print(product)
     images = ProductImage.objects.filter(sku=product)
     return render(request, 'product.html',{'product':product,'images':images})
-   
+
